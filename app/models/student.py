@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from app.db.session import Base
+from app.db.base_class import Base  # ✅ shared Base
 
 class Student(Base):
     __tablename__ = "students"
@@ -17,6 +17,6 @@ class Student(Base):
     experience = Column(String)
     soft_skills = Column(String)
     ai_summary = Column(String)
-    embedding = Column(String)  # JSON string
+    embedding = Column(String)
     resume_path = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)

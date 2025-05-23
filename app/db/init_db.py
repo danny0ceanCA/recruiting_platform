@@ -1,13 +1,18 @@
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
 from app.db.session import engine
-from app.db.session import Base
-from app.models.student import Student
-from app.models.user import User
-from app.models.job import Job  #  register the Job model
+from app.db.base_class import Base
+from app.models import User, Student, Job
 
 def create_tables():
-    Base.metadata.drop_all(bind=engine)  # dev only: clears existing tables
-    Base.metadata.create_all(bind=engine)  # recreate all tables
+    print("Using database URL:", engine.url)
+    Base.metadata.drop_all(bind=engine)
+    print("Tables to create:", list(Base.metadata.tables.keys()))
+    Base.metadata.create_all(bind=engine)
+    print("Tables created!")
 
 if __name__ == "__main__":
     create_tables()
-    print("Tables created!")

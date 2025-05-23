@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from datetime import datetime
-from app.db.session import Base
+from app.db.base_class import Base  # ✅ Use the unified Base here
 
 class Job(Base):
     __tablename__ = "jobs"
