@@ -13,7 +13,7 @@ export default function UploadCsv() {
     form.append("file", file);
 
     try {
-      const res = await fetch("/api/students/upload-csv", {
+      const res = await fetch("/students/upload-csv", {
         method: "POST",
         body: form,
       });
