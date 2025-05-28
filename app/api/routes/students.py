@@ -83,13 +83,26 @@ def create_student_profile(
 
 # 2) List all submitted students
 @router.get("/", response_model=List[StudentOut])
-def list_students(db: Session = Depends(get_db)):
-    return db.query(Student).order_by(Student.created_at.desc()).all()
+def list_students(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    query = db.query(Student).order_by(Student.created_at.desc())
+    if current_user.role != "admin":
+        query = query.filter(Student.school == current_user.school)
+    return query.all()
 
 # 3) Fetch one student by ID
 @router.get("/{student_id}", response_model=StudentOut)
-def get_student(student_id: int, db: Session = Depends(get_db)):
-    student = db.query(Student).filter(Student.id == student_id).first()
+def get_student(
+    student_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    query = db.query(Student).filter(Student.id == student_id)
+    if current_user.role != "admin":
+        query = query.filter(Student.school == current_user.school)
+    student = query.first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
