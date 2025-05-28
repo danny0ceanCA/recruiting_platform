@@ -4,7 +4,7 @@ from app.db.session import SessionLocal
 from app.models.student import Student
 from app.services.ai_assistant import generate_summary
 from app.services.embedding import get_embedding
-from app.schemas.student import StudentCreate  # ✅ Import schema for summary generation
+from app.schemas.student import StudentCreate  # Import schema for summary generation
 import csv, json, io
 
 router = APIRouter()
@@ -28,7 +28,7 @@ def upload_students_csv(file: UploadFile = File(...), db: Session = Depends(get_
 
     for row in reader:
         try:
-            student_obj = StudentCreate(**row)  # ✅ Convert row to schema
+            student_obj = StudentCreate(**row)  # Convert row to schema
             summary = generate_summary(student_obj)
             embedding = get_embedding(summary)
 

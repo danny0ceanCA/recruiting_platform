@@ -4,7 +4,6 @@ from app.schemas.user import UserCreate, UserRegister
 from app.models.user import User
 from app.db.session import SessionLocal
 from app.core.security import verify_password, create_access_token, get_password_hash
-
 router = APIRouter()
 
 # Dependency for database session
