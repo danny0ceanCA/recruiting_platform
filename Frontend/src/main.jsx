@@ -17,6 +17,7 @@ import SubmittedProfiles from "./pages/SubmittedProfiles";
 import StudentDetail from "./pages/StudentDetail";
 import Metrics from "./pages/Metrics";
 import UploadCsv from "./pages/UploadCsv";
+import AdminPanel from "./pages/AdminPanel";
 
 // Simple guard component
 function RequireAuth({ children }) {
@@ -92,6 +93,15 @@ function AppRoutes() {
         element={
           <RequireAuth>
             <UploadCsv />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/admin"
+        element={
+          <RequireAuth>
+            <AdminPanel />
           </RequireAuth>
         }
       />
