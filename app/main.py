@@ -14,6 +14,7 @@ from app.api.routes import (
     bulk_upload_csv,
     admin_users,
     users,
+    placements,
 )
 
 # Instantiate FastAPI without automatic docs URLs
@@ -57,3 +58,4 @@ app.include_router(reporting.router, prefix="", tags=["Reporting"])
 app.include_router(bulk_upload_csv.router, prefix="", tags=["Bulk Upload"])
 app.include_router(admin_users.router, prefix="", tags=["Admin"])
 app.include_router(users.router, prefix="", tags=["Users"])
+app.include_router(placements.router, prefix="", tags=["Placements"])

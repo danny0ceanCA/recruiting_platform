@@ -14,3 +14,8 @@ class PlacementOut(PlacementCreate):
 
     class Config:
         from_attributes = True
+
+class PlacementUpdate(BaseModel):
+    employer: Optional[str] = None
+    job_title: Optional[str] = None
+    status: Optional[str] = None

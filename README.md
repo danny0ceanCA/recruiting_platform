@@ -52,3 +52,12 @@ npm run dev
 ```
 
 By default the frontend is served at `http://localhost:5173` and communicates with the FastAPI backend.
+
+## Placement API
+
+Two endpoints allow recording and updating interview or placement status:
+
+- `POST /placements/` – create a new placement entry.
+- `PATCH /placements/{id}` – update an existing placement.
+
+Both endpoints require authentication just like the other protected routes.

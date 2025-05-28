@@ -1,4 +1,4 @@
-from . import auth, students, jobs, match, reporting, bulk_upload_csv, admin_users, users
+from . import auth, students, jobs, match, reporting, bulk_upload_csv, admin_users, users, placements
 
 __all__ = [
     "auth",
@@ -9,4 +9,5 @@ __all__ = [
     "bulk_upload_csv",
     "admin_users",
     "users",
+    "placements",
 ]
