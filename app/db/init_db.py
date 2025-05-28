@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 
 from app.db.session import engine
 from app.db.base_class import Base
-from app.models import User, Student, Job
+from app.models import User, Student, Job, Placement
 
 def create_tables():
     print("Using database URL:", engine.url)
