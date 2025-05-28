@@ -1,11 +1,9 @@
-// src/pages/Login.jsx
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-export default function Login() {
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError]       = useState("");
+export default function Register() {
+  const [formData, setFormData] = useState({ email: "", password: "", school: "" });
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
 
   function handleChange(e) {
@@ -15,28 +13,24 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log("Submitting login:", formData);
     setError("");
+    setMessage("");
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8001/login", {
+      const res = await fetch("http://localhost:8001/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
-      console.log("Received response:", res.status);
       const data = await res.json();
-      console.log("Response JSON:", data);
-
       if (!res.ok) {
-        throw new Error(data.detail || "Login failed");
+        throw new Error(data.detail || "Registration failed");
       }
-
-      localStorage.setItem("token", data.access_token);
-      navigate("/dashboard");
+      setMessage(data.message || "Account request submitted. Awaiting approval.");
+      // optionally clear form
+      setFormData({ email: "", password: "", school: "" });
     } catch (err) {
-      console.error("Login error:", err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -45,18 +39,10 @@ export default function Login() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm space-y-6"
-      >
-        <h2 className="text-2xl font-bold text-center text-blue-700">
-          Recruitment Platform Login
-        </h2>
-
-        {error && (
-          <p className="text-red-600 text-sm text-center">{error}</p>
-        )}
-
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md w-full max-w-sm space-y-6">
+        <h2 className="text-2xl font-bold text-center text-blue-700">Register</h2>
+        {error && <p className="text-red-600 text-sm text-center">{error}</p>}
+        {message && <p className="text-green-600 text-sm text-center">{message}</p>}
         <div>
           <label htmlFor="email" className="sr-only">Email</label>
           <input
@@ -71,14 +57,13 @@ export default function Login() {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
         <div>
           <label htmlFor="password" className="sr-only">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
@@ -86,24 +71,26 @@ export default function Login() {
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-
+        <div>
+          <label htmlFor="school" className="sr-only">School</label>
+          <input
+            id="school"
+            name="school"
+            type="text"
+            placeholder="School"
+            value={formData.school}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full py-2 text-white font-semibold rounded-md transition ${
-            isLoading
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700"
-          }`}
+          className={`w-full py-2 text-white font-semibold rounded-md transition ${isLoading ? "bg-blue-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}`}
         >
-          {isLoading ? "Logging in…" : "Log In"}
+          {isLoading ? "Submitting…" : "Register"}
         </button>
-        <p className="text-sm text-center">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Register
-          </Link>
-        </p>
       </form>
     </div>
   );
