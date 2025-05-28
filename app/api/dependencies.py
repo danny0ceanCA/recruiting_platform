@@ -7,7 +7,7 @@ from app.models.user import User
 from app.db.session import SessionLocal
 
 # ✅ Use APIKeyHeader instead of OAuth2PasswordBearer
-api_key_header = APIKeyHeader(name="Authorization")
+api_key_header = APIKeyHeader(name="Authorization", auto_error=False)
 
 def get_db():
     db = SessionLocal()
@@ -17,8 +17,10 @@ def get_db():
         db.close()
 
 def get_current_user(token: str = Depends(api_key_header), db: Session = Depends(get_db)) -> User:
+    if not token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing token")
     if not token.startswith("Bearer "):
-        raise HTTPException(status_code=401, detail="Invalid token format")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token format")
 
     token = token.split("Bearer ")[-1]
 
@@ -26,13 +28,13 @@ def get_current_user(token: str = Depends(api_key_header), db: Session = Depends
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email = payload.get("sub")
         if not email:
-            raise HTTPException(status_code=401, detail="Token missing email")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token missing email")
     except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
     user = db.query(User).filter(User.email == email).first()
     if not user:
-        raise HTTPException(status_code=401, detail="User not found")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
 
     return user
 

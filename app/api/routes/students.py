@@ -10,6 +10,8 @@ from app.schemas.student import StudentOut, StudentCreate
 from app.services.ai_assistant import generate_summary
 from app.services.embedding import get_embedding
 from app.db.session import SessionLocal
+from app.api.dependencies import get_current_user
+from app.models.user import User
 
 router = APIRouter(prefix="/students", tags=["students"])
 
@@ -37,7 +39,8 @@ def create_student_profile(
     experience: str = Form(None),
     soft_skills: str = Form(None),
     resume: UploadFile = File(None),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
     # Save resume file if provided
     resume_path = None

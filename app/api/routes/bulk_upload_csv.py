@@ -5,6 +5,8 @@ from app.models.student import Student
 from app.services.ai_assistant import generate_summary
 from app.services.embedding import get_embedding
 from app.schemas.student import StudentCreate  # ✅ Import schema for summary generation
+from app.api.dependencies import get_current_user
+from app.models.user import User
 import csv, json, io
 
 router = APIRouter()
@@ -17,7 +19,11 @@ def get_db():
         db.close()
 
 @router.post("/students/upload-csv")
-def upload_students_csv(file: UploadFile = File(...), db: Session = Depends(get_db)):
+def upload_students_csv(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     if not file.filename.endswith(".csv"):
         raise HTTPException(status_code=400, detail="File must be a .csv")
 
