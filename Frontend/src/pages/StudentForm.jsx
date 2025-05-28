@@ -41,7 +41,7 @@ export default function StudentForm() {
     });
 
     try {
-      const res = await fetch("/api/students/start", {
+      const res = await fetch("/students/start", {
         method: "POST",
         body: form,
       });
