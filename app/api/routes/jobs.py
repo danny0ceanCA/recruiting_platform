@@ -5,7 +5,7 @@ from typing import List
 from app.db.session import SessionLocal
 from app.models.job import Job
 from app.schemas.job import JobCreate, JobOut
-from app.api.dependencies import get_current_user
+from app.api.dependencies import get_current_user, admin_required
 from app.models.user import User
 
 # Debug confirmation that this route file was loaded
@@ -22,11 +22,11 @@ def get_db():
         db.close()
 
 # Create a new job posting
-@router.post("/jobs/", response_model=JobOut)
+@router.post("/jobs/", response_model=JobOut, dependencies=[Depends(admin_required)])
 def create_job(
     job_data: JobCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: User = Depends(get_current_user),
 ):
     new_job = Job(**job_data.dict())
     db.add(new_job)
@@ -36,6 +36,6 @@ def create_job(
     return new_job
 
 # Get a list of all job postings
-@router.get("/jobs/", response_model=List[JobOut])
+@router.get("/jobs/", response_model=List[JobOut], dependencies=[Depends(admin_required)])
 def list_jobs(db: Session = Depends(get_db)):
     return db.query(Job).order_by(Job.created_at.desc()).all()
