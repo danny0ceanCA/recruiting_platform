@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
 # ------------------------------------------------------------
-# setup.sh – offline bootstrap for Codex & local CI
-# Installs Python deps from ./vendor without touching the Internet
+# setup.sh – works even when the Codex sandbox has NO internet
 # ------------------------------------------------------------
 set -euo pipefail
-echo "🔧  Bootstrapping offline …"
+echo "🔧  Bootstrapping …"
 
-# 0) (Codex runs as root) – make sure basic build tools exist
-if command -v apt-get >/dev/null 2>&1; then
-  export DEBIAN_FRONTEND=noninteractive
-  apt-get update -y
-  apt-get install -y build-essential libpq-dev python3-dev cargo
-fi
+# 0) Skip apt-get entirely; the Codex image already has gcc & libpq
+#    If you ever need them, wrap in a timeout so failure is harmless:
+# timeout 15s apt-get update || true
 
-# 1) Python virtual environment
+# 1) Virtual-env
 python3 -m venv .venv
 source .venv/bin/activate
 python3 -m pip install --upgrade pip wheel
 
-# 2) Install every package from the local wheel-house
+# 2) Install backend deps from the local wheel-house
 pip install --no-index --find-links vendor -r requirements.txt
 
-# 3) Optional: seed a local SQLite DB for tests (safe if file missing)
+# 3) Optional DB seed (safe if file absent)
 [ -f "./app/db/init_db.py" ] && python ./app/db/init_db.py || true
 
-echo "✅  Setup complete."
+echo "✅  Backend ready (offline)"
