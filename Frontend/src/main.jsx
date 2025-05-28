@@ -11,6 +11,7 @@ import {
 import "./index.css";
 
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import StartProfile from "./pages/StartProfile";
 import SubmittedProfiles from "./pages/SubmittedProfiles";
@@ -38,6 +39,11 @@ function AppRoutes() {
             ? <Navigate to="/dashboard" replace />
             : <Login />
         }
+      />
+
+      <Route
+        path="/register"
+        element={<Register />}
       />
 
       {/* All protected routes */}
