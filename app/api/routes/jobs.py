@@ -5,6 +5,8 @@ from typing import List
 from app.db.session import SessionLocal
 from app.models.job import Job
 from app.schemas.job import JobCreate, JobOut
+from app.api.dependencies import get_current_user
+from app.models.user import User
 
 # Debug confirmation that this route file was loaded
 print("✅ jobs.py loaded")
@@ -21,7 +23,11 @@ def get_db():
 
 # Create a new job posting
 @router.post("/jobs/", response_model=JobOut)
-def create_job(job_data: JobCreate, db: Session = Depends(get_db)):
+def create_job(
+    job_data: JobCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
     new_job = Job(**job_data.dict())
     db.add(new_job)
     db.commit()
