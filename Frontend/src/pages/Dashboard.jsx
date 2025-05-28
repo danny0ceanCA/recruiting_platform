@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const navigate = useNavigate();
   const schoolName = "Unitek Career Services";
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function checkRole() {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      try {
+        const res = await fetch("http://localhost:8001/users/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        setIsAdmin(data.role === "admin");
+      } catch {
+        // ignore
+      }
+    }
+    checkRole();
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -37,6 +56,11 @@ export default function Dashboard() {
         <Link to="/upload-csv" className={cardClasses}>
           Upload CSV
         </Link>
+        {isAdmin && (
+          <Link to="/jobs" className={cardClasses}>
+            Manage Jobs
+          </Link>
+        )}
       </div>
     </div>
   );
