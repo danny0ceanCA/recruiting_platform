@@ -16,6 +16,19 @@ A lightweight recruiting platform featuring a FastAPI backend and a React fronte
 
 The backend uses SQLite (`test.db`) by default. Create a `.env` file with `DATABASE_URL` or other settings if needed.
 
+## Environment Variables
+
+The application reads configuration from a `.env` file in the project root. Copy
+`.env.example` to `.env` and adjust the values for your environment.
+
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `DATABASE_URL` | SQLAlchemy database URL used by the backend | `sqlite:///./test.db` |
+| `SECRET_KEY` | Secret key for signing JWT tokens | `yoursecretkey` |
+| `OPENAI_API_KEY` | API key for OpenAI services | *(none)* |
+
+Any variables omitted will fall back to the defaults shown above.
+
 ## Frontend Setup
 
 1. **Install Node.js packages**
