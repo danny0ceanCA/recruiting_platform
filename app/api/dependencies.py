@@ -1,12 +1,12 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import APIKeyHeader  # Use this instead
+from fastapi.security import APIKeyHeader  # ✅ Use this instead
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 from app.core.security import SECRET_KEY, ALGORITHM
 from app.models.user import User
 from app.db.session import SessionLocal
 
-# Use APIKeyHeader instead of OAuth2PasswordBearer
+# ✅ Use APIKeyHeader instead of OAuth2PasswordBearer
 api_key_header = APIKeyHeader(name="Authorization")
 
 def get_db():
