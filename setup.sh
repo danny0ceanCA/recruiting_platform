@@ -27,7 +27,8 @@ else
 fi
 
 # 4) Upgrade pip & install from vendor/
-$PY -m pip install --upgrade pip wheel
+$PY -m pip install --no-index --find-links vendor pip wheel
+
 
 if [ ! -d vendor ]; then
   echo "❌ vendor/ directory missing – cannot install offline packages"
