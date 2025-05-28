@@ -2,8 +2,6 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.engine.url import make_url
 
 # Load environment variables from .env file
 load_dotenv()
@@ -19,6 +17,5 @@ if DATABASE_URL.startswith("sqlite"):
 else:
     engine = create_engine(DATABASE_URL)
 
-# Base and session factory
+# Session factory (models use Base from app.db.base_class)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
