@@ -1,4 +1,7 @@
-# …inside setup.sh…
+#!/usr/bin/env bash
+# setup.sh — Codex & offline compatible
+set -euo pipefail
+echo "🔧 Bootstrapping …"
 
 # 1) Pick the right python
 if command -v python3 &>/dev/null; then
@@ -13,7 +16,7 @@ fi
 # 2) Create venv
 $PY -m venv .venv
 
-# 3) Activate (bin/ for WSL, Scripts/ for Windows)
+# 3) Activate venv (handles Windows + Linux)
 if [ -f .venv/bin/activate ]; then
   source .venv/bin/activate
 elif [ -f .venv/Scripts/activate ]; then
@@ -23,6 +26,14 @@ else
   exit 1
 fi
 
-# 4) Upgrade & install
+# 4) Upgrade pip & install from vendor/
 $PY -m pip install --upgrade pip wheel
+
+if [ ! -d vendor ]; then
+  echo "❌ vendor/ directory missing – cannot install offline packages"
+  exit 1
+fi
+
 pip install --no-index --find-links vendor -r requirements.txt
+
+echo "✅ Setup complete (offline)"
