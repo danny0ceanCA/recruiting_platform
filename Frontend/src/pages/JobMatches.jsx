@@ -18,7 +18,7 @@ export default function JobMatches() {
         return;
       }
       try {
-        const meRes = await fetch("http://localhost:8001/users/me", {
+        const meRes = await fetch("http://localhost:8000/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!meRes.ok) {
@@ -31,14 +31,14 @@ export default function JobMatches() {
           return;
         }
 
-        const jobsRes = await fetch("http://localhost:8001/jobs/", {
+        const jobsRes = await fetch("http://localhost:8000/jobs/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const jobsData = await jobsRes.json();
         if (!jobsRes.ok) throw new Error(jobsData.detail || "Failed to fetch job");
         setJob(jobsData.find((j) => j.id === parseInt(id)) || null);
 
-        const matchRes = await fetch(`http://localhost:8001/match-now/?job_id=${id}`, {
+        const matchRes = await fetch(`http://localhost:8000/match-now/?job_id=${id}`, {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
         });
