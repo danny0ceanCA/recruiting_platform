@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function StudentDetail() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ export default function StudentDetail() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`/students/${id}`);
+        const res = await fetch(`${API_URL}/students/${id}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to fetch student");
         setStudent(data);

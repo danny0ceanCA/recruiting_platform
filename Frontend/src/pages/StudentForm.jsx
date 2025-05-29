@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from "../api";
 
 export default function StudentForm() {
   const [formData, setFormData] = useState({
@@ -41,7 +42,7 @@ export default function StudentForm() {
     });
 
     try {
-      const res = await fetch("/students/start", {
+      const res = await fetch(`${API_URL}/students/start`, {
         method: "POST",
         body: form,
       });

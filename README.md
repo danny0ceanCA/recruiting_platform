@@ -23,13 +23,18 @@ Copy `.env.example` to `.env` and modify the values as needed:
 
 ```bash
 cp .env.example .env
+cd Frontend
+cp .env.example .env
+cd ..
 ```
+The commands inside `Frontend/` create a `.env` file so the React app can read `VITE_API_URL`.
 
 The main variables are:
 
 - `DATABASE_URL` – database connection string (defaults to the bundled SQLite database)
 - `SECRET_KEY` – key used to sign JWT tokens
 - `OPENAI_API_KEY` – your API key for OpenAI services
+- `VITE_API_URL` – base URL for the frontend to reach the API (defaults to `http://localhost:8001`)
 
 ## Running the Backend
 
