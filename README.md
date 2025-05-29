@@ -36,7 +36,7 @@ The main variables are:
 After activating the virtual environment and preparing environment variables, start the FastAPI application with:
 
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --port 8000
 ```
 
 The API will be available at `http://localhost:8000` and documentation can be accessed at `/docs` when running in development mode.
@@ -51,7 +51,7 @@ npm install
 npm run dev
 ```
 
-By default the frontend is served at `http://localhost:5173` and communicates with the FastAPI backend.
+By default the frontend is served at `http://localhost:5173` and communicates with the FastAPI backend on port **8000**.
 
 ## Placement API
 
