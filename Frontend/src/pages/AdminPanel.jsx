@@ -16,7 +16,7 @@ export default function AdminPanel() {
       }
       try {
         // Verify role
-        const meRes = await fetch("http://localhost:8001/users/me", {
+        const meRes = await fetch("http://localhost:8000/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!meRes.ok) {
@@ -28,7 +28,7 @@ export default function AdminPanel() {
           navigate("/dashboard", { replace: true });
           return;
         }
-        const res = await fetch("http://localhost:8001/admin/pending-users", {
+        const res = await fetch("http://localhost:8000/admin/pending-users", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch pending users");
@@ -45,7 +45,7 @@ export default function AdminPanel() {
 
   async function handleAction(id, action) {
     try {
-      const res = await fetch(`http://localhost:8001/admin/${action}-user/${id}`, {
+      const res = await fetch(`http://localhost:8000/admin/${action}-user/${id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });

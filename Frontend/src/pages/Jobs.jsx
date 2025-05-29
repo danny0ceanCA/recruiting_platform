@@ -15,7 +15,7 @@ export default function Jobs() {
         return;
       }
       try {
-        const meRes = await fetch("http://localhost:8001/users/me", {
+        const meRes = await fetch("http://localhost:8000/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!meRes.ok) {
@@ -27,7 +27,7 @@ export default function Jobs() {
           navigate("/dashboard", { replace: true });
           return;
         }
-        const res = await fetch("http://localhost:8001/jobs/", {
+        const res = await fetch("http://localhost:8000/jobs/", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

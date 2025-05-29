@@ -24,7 +24,7 @@ export default function CreateJob() {
         navigate("/", { replace: true });
         return;
       }
-      const res = await fetch("http://localhost:8001/users/me", {
+      const res = await fetch("http://localhost:8000/users/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) {
@@ -49,7 +49,7 @@ export default function CreateJob() {
     try {
       const payload = { ...formData };
       if (payload.pay === "") delete payload.pay;
-      const res = await fetch("http://localhost:8001/jobs/", {
+      const res = await fetch("http://localhost:8000/jobs/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
