@@ -47,15 +47,33 @@ export default function Jobs() {
 
   return (
     <div className="max-w-2xl mx-auto p-4 space-y-4">
-      <h2 className="text-2xl font-bold">Job Postings</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold">Job Postings</h2>
+        <button
+          onClick={() => navigate("/jobs/create")}
+          className="px-3 py-1 bg-green-600 text-white rounded"
+        >
+          New Job
+        </button>
+      </div>
       {jobs.length === 0 ? (
         <p>No jobs available.</p>
       ) : (
         <ul className="space-y-2">
           {jobs.map((job) => (
             <li key={job.id} className="border p-2 rounded bg-white">
-              <p className="font-semibold">{job.title}</p>
-              <p>{job.description}</p>
+              <div className="flex justify-between">
+                <div>
+                  <p className="font-semibold">{job.title}</p>
+                  <p>{job.description}</p>
+                </div>
+                <button
+                  onClick={() => navigate(`/jobs/${job.id}/matches`)}
+                  className="px-2 py-1 bg-blue-600 text-white rounded self-start"
+                >
+                  Match Now
+                </button>
+              </div>
             </li>
           ))}
         </ul>

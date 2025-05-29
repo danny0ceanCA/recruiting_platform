@@ -20,7 +20,7 @@ import Metrics from "./pages/Metrics";
 import UploadCsv from "./pages/UploadCsv";
 import AdminPanel from "./pages/AdminPanel";
 import Jobs from "./pages/Jobs";
-import EditStudent from "./pages/EditStudent";
+
 
 // Simple guard component
 function RequireAuth({ children }) {
@@ -128,6 +128,24 @@ function AppRoutes() {
         element={
           <RequireAuth>
             <Jobs />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/jobs/create"
+        element={
+          <RequireAuth>
+            <CreateJob />
+          </RequireAuth>
+        }
+      />
+
+      <Route
+        path="/jobs/:id/matches"
+        element={
+          <RequireAuth>
+            <JobMatches />
           </RequireAuth>
         }
       />
