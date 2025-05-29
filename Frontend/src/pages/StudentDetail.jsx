@@ -43,6 +43,12 @@ export default function StudentDetail() {
       <Link to="/profiles" className="text-blue-600 hover:underline">
         &larr; Back
       </Link>
+      <Link
+        to={`/profiles/${id}/edit`}
+        className="text-blue-600 hover:underline block"
+      >
+        Edit Profile
+      </Link>
       <h2 className="text-2xl font-bold">Student Detail</h2>
       <div className="bg-white p-4 rounded shadow">
         <ul className="space-y-1">
