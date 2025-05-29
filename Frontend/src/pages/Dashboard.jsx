@@ -11,7 +11,7 @@ export default function Dashboard() {
       const token = localStorage.getItem("token");
       if (!token) return;
       try {
-        const res = await fetch("http://localhost:8001/users/me", {
+        const res = await fetch("http://localhost:8000/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) return;
