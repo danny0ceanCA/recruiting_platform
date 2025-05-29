@@ -33,7 +33,7 @@ export default function Dashboard() {
     "flex-1 bg-white rounded-lg shadow p-6 text-center font-medium hover:shadow-lg transition";
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-transparent p-8">
       <div className="flex justify-between items-center max-w-4xl mx-auto mb-8">
         <h1 className="text-4xl font-bold">{schoolName}</h1>
         <button
