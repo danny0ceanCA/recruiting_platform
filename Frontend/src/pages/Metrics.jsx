@@ -45,14 +45,10 @@ export default function Metrics() {
       <p className="mb-2">Total Students: {metrics.total_students}</p>
       <p className="mb-4">Total Placed: {metrics.total_placed}</p>
 
-      <div className="mb-4">
-        <h3 className="font-semibold">Placements by School</h3>
-        <ul className="list-disc ml-5">
-          {Object.entries(metrics.placements_by_school).map(([name, count]) => (
-            <li key={name}>{name}: {count}</li>
-          ))}
-        </ul>
-      </div>
+      <p className="mb-2">Placement Rate: {metrics.placement_rate.toFixed(2)}%</p>
+      <p className="mb-4">
+        Avg. Time to Place: {metrics.average_time_to_place_days.toFixed(2)} days
+      </p>
 
       <div>
         <h3 className="font-semibold">Interviews by Employer</h3>
