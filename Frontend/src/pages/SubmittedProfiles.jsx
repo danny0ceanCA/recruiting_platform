@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_URL } from "../api";
 
 export default function SubmittedProfiles() {
   const [students, setStudents] = useState([]);
@@ -9,7 +10,7 @@ export default function SubmittedProfiles() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch("/students/");
+        const res = await fetch(`${API_URL}/students/`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to fetch students");
         setStudents(data);
