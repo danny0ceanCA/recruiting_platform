@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../api";
 
 export default function SubmittedProfiles() {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${API_URL}/students/`);
+        const res = await fetch(`${API_URL}/students/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.status === 401 || res.status === 403) {
+          navigate("/", { replace: true });
+          return;
+        }
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to fetch students");
         setStudents(data);

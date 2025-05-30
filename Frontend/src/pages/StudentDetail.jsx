@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { API_URL } from "../api";
 
 export default function StudentDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -11,7 +13,13 @@ export default function StudentDetail() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch(`${API_URL}/students/${id}`);
+        const res = await fetch(`${API_URL}/students/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.status === 401 || res.status === 403) {
+          navigate("/", { replace: true });
+          return;
+        }
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to fetch student");
         setStudent(data);

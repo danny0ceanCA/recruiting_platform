@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_URL } from "../api";
 
 export default function UploadCsv() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,8 +19,13 @@ export default function UploadCsv() {
     try {
       const res = await fetch(`${API_URL}/students/upload-csv`, {
         method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
         body: form,
       });
+      if (res.status === 401 || res.status === 403) {
+        navigate("/", { replace: true });
+        return;
+      }
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Upload failed");
       setMessage(`Created ${data.total} profiles.`);

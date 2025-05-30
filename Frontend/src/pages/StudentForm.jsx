@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_URL } from "../api";
 
 export default function StudentForm() {
@@ -16,6 +17,8 @@ export default function StudentForm() {
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -44,8 +47,13 @@ export default function StudentForm() {
     try {
       const res = await fetch(`${API_URL}/students/start`, {
         method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
         body: form,
       });
+      if (res.status === 401 || res.status === 403) {
+        navigate("/", { replace: true });
+        return;
+      }
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Submission failed");
       setMessage("Profile submitted successfully.");
