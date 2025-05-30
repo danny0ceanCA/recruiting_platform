@@ -39,6 +39,10 @@ def update_user(
         user.email = user_update.email
     if user_update.school is not None:
         user.school = user_update.school
+    if user_update.first_name is not None:
+        user.first_name = user_update.first_name
+    if user_update.last_name is not None:
+        user.last_name = user_update.last_name
     db.commit()
     db.refresh(user)
     return user

@@ -35,10 +35,12 @@ def register(user_data: UserRegister, db: Session = Depends(get_db)):
 
     new_user = User(
         email=user_data.email,
+        first_name=user_data.first_name,
+        last_name=user_data.last_name,
         hashed_password=get_password_hash(user_data.password),
         role="staff",
         status="pending",
-        school = user_data.school
+        school=user_data.school
     )
     db.add(new_user)
     db.commit()
