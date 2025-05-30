@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Metrics() {
   const schoolName = "Unitek Career Services";
   const [metrics, setMetrics] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     async function loadMetrics() {
       try {
         const res = await fetch(
-          `/reporting/overview?school=${encodeURIComponent(schoolName)}`
+          `/reporting/overview?school=${encodeURIComponent(schoolName)}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
+        if (res.status === 401 || res.status === 403) {
+          navigate("/", { replace: true });
+          return;
+        }
         const data = await res.json();
         if (!res.ok) {
           throw new Error(data.detail || "Failed to fetch metrics");

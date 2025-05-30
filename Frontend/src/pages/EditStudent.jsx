@@ -27,6 +27,10 @@ export default function EditStudent() {
         const res = await fetch(`/students/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        if (res.status === 401 || res.status === 403) {
+          navigate("/", { replace: true });
+          return;
+        }
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to load student");
         setFormData((prev) => ({ ...prev, ...data }));
@@ -69,6 +73,10 @@ export default function EditStudent() {
         headers: { Authorization: `Bearer ${token}` },
         body: form,
       });
+      if (res.status === 401 || res.status === 403) {
+        navigate("/", { replace: true });
+        return;
+      }
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Update failed");
       setMessage("Student updated.");
