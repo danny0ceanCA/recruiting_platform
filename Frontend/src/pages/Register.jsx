@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 
 export default function Register() {
-  const [formData, setFormData] = useState({ email: "", password: "", school: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    first_name: "",
+    last_name: "",
+    school: ""
+  });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -29,7 +35,7 @@ export default function Register() {
       }
       setMessage(data.message || "Account request submitted. Awaiting approval.");
       // optionally clear form
-      setFormData({ email: "", password: "", school: "" });
+      setFormData({ email: "", password: "", first_name: "", last_name: "", school: "" });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -66,6 +72,32 @@ export default function Register() {
             autoComplete="new-password"
             placeholder="Password"
             value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="first_name" className="sr-only">First Name</label>
+          <input
+            id="first_name"
+            name="first_name"
+            type="text"
+            placeholder="First Name"
+            value={formData.first_name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="last_name" className="sr-only">Last Name</label>
+          <input
+            id="last_name"
+            name="last_name"
+            type="text"
+            placeholder="Last Name"
+            value={formData.last_name}
             onChange={handleChange}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -16,9 +16,12 @@ def create_user():
 
     # Create user
     new_user = User(
+        first_name="Test",
+        last_name="User",
         email=test_email,
         hashed_password=get_password_hash(test_password),
-        role="staff"
+        role="staff",
+        school="Test School"
     )
     db.add(new_user)
     db.commit()
